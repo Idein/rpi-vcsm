@@ -128,7 +128,7 @@ class raw(object):
                 handle = handle
         )
         ioctl(self.fd, self.IOCTL_LOCK, s)
-        return s.handle
+        return s.addr
 
     def unlock(self, handle):
         s = self.st_lock_unlock(
