@@ -1,5 +1,4 @@
 from distutils.core import setup
-from Cython.Build import cythonize
 
 # Note:
 #   - For packaging, see http://www.diveintopython3.net/packaging.html
@@ -13,5 +12,4 @@ setup(
         author = "Sugizaki Yukimasa",
         author_email = "ysugi@idein.inc",
         url = "https://github.com/Idein/rpi-vcsm",
-        ext_modules = cythonize("rpi_vcsm/buffer.pyx"),
 )
