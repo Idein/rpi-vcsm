@@ -1,6 +1,7 @@
 """VideoCore Shared Memory (VCSM) driver for Raspberry Pi"""
 
 import os
+import sys
 from fcntl import ioctl
 from ctypes import Structure, c_char, c_uint, c_uint8, c_uint16, c_uint32, \
                    c_void_p
@@ -121,11 +122,15 @@ class raw(object):
 
 
     def alloc(self, size, num, cached, name):
+        if sys.version_info >= (3, 0):
+            name = bytes(name, 'ascii')
+        else:
+            name = bytes(name).encode('ascii')
         s = self.st_alloc(
                 size = size,
                 num = num,
                 cached = cached,
-                name = bytes(name, 'ascii')
+                name = name
         )
         ioctl(self.fd, self.IOCTL_ALLOC, s)
         return s.handle
