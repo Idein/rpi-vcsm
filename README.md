@@ -35,6 +35,5 @@ $ sudo rpi-update
 
 ```
 $ pip install nose
-$ python setup.py build_ext --inplace
 $ nosetests -v -s
 ```

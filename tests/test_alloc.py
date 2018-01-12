@@ -1,5 +1,4 @@
 import rpi_vcsm.VCSM
-import rpi_vcsm.buffer
 
 def test_alloc():
     with rpi_vcsm.VCSM.VCSM() as vcsm:
