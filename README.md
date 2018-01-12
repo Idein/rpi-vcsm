@@ -17,9 +17,9 @@ driver.
 ## Installation
 
 ```
-$ pip install -r requirements.txt
 $ git clone https://github.com/Idein/rpi-vcsm.git
 $ cd rpi-vcsm/
+$ pip install -r requirements.txt
 $ python setup.py install
 ```
 
