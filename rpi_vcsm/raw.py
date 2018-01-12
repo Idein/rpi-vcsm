@@ -5,7 +5,6 @@ from fcntl import ioctl
 from ctypes import Structure, c_char, c_uint, c_uint8, c_uint16, c_uint32, \
                    c_void_p
 from ioctl_opt import IOR
-import rpi_vcsm.buffer
 
 
 class raw(object):
@@ -159,15 +158,12 @@ class raw(object):
         return s.addr
 
     def clean_invalid2(self, op, usr_ptr, block_count, block_size, stride):
-        buffer = rpi_vcsm.buffer.buffer(usr_ptr)
-        addr = buffer.get_addr()
-        buffer.close()
         s = self.st_clean_invalid2(
                 op_count = 1,
                 s = self.st_clean_invalid2.st_clean_invalid_block(
                         invalidate_mode = op,
                         block_count = block_count,
-                        start_address = addr,
+                        start_address = usr_ptr,
                         block_size = block_size,
                         inter_block_stride = stride
                 )

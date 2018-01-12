@@ -8,8 +8,6 @@ def align(u, a):
 
 class VCSM(object):
 
-    pagesize = mmap.PAGESIZE
-
     def __init__(self):
         self.raw = rpi_vcsm.raw.raw()
 
@@ -28,16 +26,20 @@ class VCSM(object):
 
     # No align parameter? Yeah, the driver always aligns the address to 4096B.
     def malloc_cache(self, size, cache, name):
-        handle = self.raw.alloc(int(size), 1, cache,
-                                name if name is not None else '')
-        usr_ptr = mmap.mmap(self.raw.fd, size, flags = mmap.MAP_SHARED,
+        size = align(int(size), mmap.PAGESIZE)
+        if not name:
+            name = ''
+        handle = self.raw.alloc(size, 1, cache, name)
+        usr_buf = mmap.mmap(fileno = self.raw.fd, length = size,
+                            flags = mmap.MAP_SHARED,
                             prot = mmap.PROT_READ | mmap.PROT_WRITE,
                             offset = handle)
-        bus_ptr = self.raw.lock(handle)
-        return (handle, bus_ptr, usr_ptr)
+        usr_ptr = self.raw.lock(handle)
+        bus_ptr = self.raw.map_vc_addr_fr_hdl(handle)
+        return (handle, bus_ptr, usr_ptr, usr_buf)
 
-    def free(self, handle, usr_ptr):
-        usr_ptr.close()
+    def free(self, handle, usr_buf):
+        usr_buf.close()
         self.raw.unlock(handle)
         self.raw.free(handle)
 
