@@ -11,11 +11,12 @@ import rpi_vcsm.buffer
 class raw(object):
 
     MAGIC = ord('I')
-    CMD_ALLOC          = 0x5a
-    CMD_LOCK           = 0x5c
-    CMD_UNLOCK         = 0x5e
-    CMD_FREE           = 0x61
-    CMD_CLEAN_INVALID2 = 0x70
+    CMD_ALLOC                   = 0x5a
+    CMD_LOCK                    = 0x5c
+    CMD_UNLOCK                  = 0x5e
+    CMD_FREE                    = 0x61
+    CMD_MAPPED_VC_ADDR_FROM_HDL = 0x6a
+    CMD_CLEAN_INVALID2          = 0x70
 
     OP_NOP              = 0
     OP_INVALIDATE       = 1
@@ -89,12 +90,19 @@ class raw(object):
         ]
         pass
 
-    IOCTL_ALLOC          = IOR(MAGIC, CMD_ALLOC,          st_alloc)
-    IOCTL_LOCK           = IOR(MAGIC, CMD_LOCK,           st_lock_unlock)
-    IOCTL_UNLOCK         = IOR(MAGIC, CMD_UNLOCK,         st_lock_unlock)
-    IOCTL_FREE           = IOR(MAGIC, CMD_FREE,           st_free)
+    IOCTL_ALLOC              = IOR(MAGIC, CMD_ALLOC,
+                                   st_alloc)
+    IOCTL_LOCK               = IOR(MAGIC, CMD_LOCK,
+                                   st_lock_unlock)
+    IOCTL_UNLOCK             = IOR(MAGIC, CMD_UNLOCK,
+                                   st_lock_unlock)
+    IOCTL_FREE               = IOR(MAGIC, CMD_FREE,
+                                   st_free)
+    IOCTL_MAP_VC_ADDR_FR_HDL = IOR(MAGIC, CMD_MAPPED_VC_ADDR_FROM_HDL,
+                                   st_map)
     # Dirty hack! No more zero-sized arrays I hope!
-    IOCTL_CLEAN_INVALID2 = IOR(MAGIC, CMD_CLEAN_INVALID2, c_uint8 * 4)
+    IOCTL_CLEAN_INVALID2     = IOR(MAGIC, CMD_CLEAN_INVALID2,
+                                   c_uint8 * 4)
 
 
     def __init__(self):
@@ -141,6 +149,14 @@ class raw(object):
                 handle = handle
         )
         ioctl(self.fd, self.IOCTL_FREE, s)
+
+    def map_vc_addr_fr_hdl(self, handle):
+        s = self.st_map(
+                pid = os.getpid(),
+                handle = handle
+        )
+        ioctl(self.fd, self.IOCTL_MAP_VC_ADDR_FR_HDL, s)
+        return s.addr
 
     def clean_invalid2(self, op, usr_ptr, block_count, block_size, stride):
         buffer = rpi_vcsm.buffer.buffer(usr_ptr)
