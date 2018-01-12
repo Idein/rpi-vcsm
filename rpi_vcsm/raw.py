@@ -89,10 +89,10 @@ class raw(object):
         ]
         pass
 
-    IOCTL_ALLOC = IOR(MAGIC, CMD_ALLOC, st_alloc)
-    IOCTL_LOCK = IOR(MAGIC, CMD_LOCK, st_lock_unlock)
-    IOCTL_UNLOCK = IOR(MAGIC, CMD_UNLOCK, st_lock_unlock)
-    IOCTL_FREE = IOR(MAGIC, CMD_FREE, st_free)
+    IOCTL_ALLOC          = IOR(MAGIC, CMD_ALLOC,          st_alloc)
+    IOCTL_LOCK           = IOR(MAGIC, CMD_LOCK,           st_lock_unlock)
+    IOCTL_UNLOCK         = IOR(MAGIC, CMD_UNLOCK,         st_lock_unlock)
+    IOCTL_FREE           = IOR(MAGIC, CMD_FREE,           st_free)
     # Dirty hack! No more zero-sized arrays I hope!
     IOCTL_CLEAN_INVALID2 = IOR(MAGIC, CMD_CLEAN_INVALID2, c_uint8 * 4)
 
