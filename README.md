@@ -5,8 +5,7 @@ A Python driver for VideoCore Shared Memory (VCSM) of Raspberry Pi.
 
 ## Requirements
 
-`Cython` and `ioctl-opt>=1.2` are needed to build and run this driver. See
-`requirements.txt`.
+`ioctl-opt>=1.2` is needed to run this driver. See `requirements.txt`.
 
 In additon, this driver opens `/dev/vcsm`, which is a official kernel device of
 VCSM.  The owner of the device is `root.video` and the permission is
