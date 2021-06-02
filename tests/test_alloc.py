@@ -1,11 +1,12 @@
 import rpi_vcsm.VCSM
 
+
 def test_alloc():
     with rpi_vcsm.VCSM.VCSM() as vcsm:
         size = 32000000
 
-        (handle, bus, usr, buf) = \
-                vcsm.malloc_cache(size, rpi_vcsm.CACHE_NONE, None)
+        handle, bus, usr, buf = vcsm.malloc_cache(
+            size, rpi_vcsm.CACHE_NONE, None)
 
         print('size=0x%08x' % size)
         print('Got handle:               0x%08x' % handle)
