@@ -1,23 +1,29 @@
+
+import unittest
+
 import rpi_vcsm.VCSM
 
 
-def test_alloc():
-    with rpi_vcsm.VCSM.VCSM() as vcsm:
-        size = 32000000
+class Test(unittest.TestCase):
 
-        handle, bus, usr, buf = vcsm.malloc_cache(
-            size, rpi_vcsm.CACHE_NONE, None)
+    def test_alloc(self):
 
-        print('size=0x%08x' % size)
-        print('Got handle:               0x%08x' % handle)
-        print('Got bus address:          0x%08x' % bus)
-        print('Got user virtual address: 0x%08x' % usr)
+        with rpi_vcsm.VCSM.VCSM() as vcsm:
+            size = 32000000
 
-        vcsm.clean(usr, size)
-        vcsm.invalidate(usr, size)
-        vcsm.clean(usr, size)
-        vcsm.invalidate(usr, size)
-        vcsm.clean(usr, size)
-        vcsm.invalidate(usr, size)
+            handle, bus, usr, buf = vcsm.malloc_cache(size, rpi_vcsm.CACHE_NONE,
+                                                      None)
 
-        vcsm.free(handle, buf)
+            print('size=0x%08x' % size)
+            print('Got handle:               0x%08x' % handle)
+            print('Got bus address:          0x%08x' % bus)
+            print('Got user virtual address: 0x%08x' % usr)
+
+            vcsm.clean(usr, size)
+            vcsm.invalidate(usr, size)
+            vcsm.clean(usr, size)
+            vcsm.invalidate(usr, size)
+            vcsm.clean(usr, size)
+            vcsm.invalidate(usr, size)
+
+            vcsm.free(handle, buf)

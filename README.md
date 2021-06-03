@@ -33,6 +33,5 @@ $ sudo rpi-update
 ## Testing
 
 ```
-$ pip install nose
-$ nosetests -v -s
+$ python -m unittest tests/*.py
 ```
