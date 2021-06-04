@@ -11,19 +11,20 @@ class Test(unittest.TestCase):
         with rpi_vcsm.VCSM.VCSM() as vcsm:
             size = 32000000
 
-            handle, bus, usr, buf = vcsm.malloc_cache(size, rpi_vcsm.CACHE_NONE,
-                                                      None)
+            handle, bus_ptr, usr_ptr, usr_buf = \
+                vcsm.malloc_cache(size=size, cached=rpi_vcsm.CACHE_NONE,
+                                  name='test')
 
-            print('size=0x%08x' % size)
-            print('Got handle:               0x%08x' % handle)
-            print('Got bus address:          0x%08x' % bus)
-            print('Got user virtual address: 0x%08x' % usr)
+            print('size = 0x%08x' % size)
+            print('handle  = 0x%08x' % handle)
+            print('bus_ptr = 0x%08x' % bus_ptr)
+            print('usr_ptr = 0x%08x' % usr_ptr)
 
-            vcsm.clean(usr, size)
-            vcsm.invalidate(usr, size)
-            vcsm.clean(usr, size)
-            vcsm.invalidate(usr, size)
-            vcsm.clean(usr, size)
-            vcsm.invalidate(usr, size)
+            vcsm.clean(handle=handle, usr_ptr=usr_ptr, size=size)
+            vcsm.invalidate(handle=handle, usr_ptr=usr_ptr, size=size)
+            vcsm.clean(handle=handle, usr_ptr=usr_ptr, size=size)
+            vcsm.invalidate(handle=handle, usr_ptr=usr_ptr, size=size)
+            vcsm.clean(handle=handle, usr_ptr=usr_ptr, size=size)
+            vcsm.invalidate(handle=handle, usr_ptr=usr_ptr, size=size)
 
-            vcsm.free(handle, buf)
+            vcsm.free(handle=handle, usr_buf=usr_buf)
