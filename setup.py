@@ -1,15 +1,17 @@
-from distutils.core import setup
 
-# Note:
-#   - For packaging, see http://www.diveintopython3.net/packaging.html
-#   - Calculate version by using https://www.pakin.org/~scott/ltver.html
+from setuptools import setup
 
 setup(
-    name="rpi-vcsm",
-    packages=["rpi_vcsm"],
-    version="2.0.0",
-    description="VideoCore Shared Memory (VCSM) driver for Raspberry Pi",
-    author="Sugizaki Yukimasa",
-    author_email="ysugi@idein.inc",
-    url="https://github.com/Idein/rpi-vcsm",
+    name='rpi-vcsm',
+    packages=[
+        'rpi_vcsm',
+    ],
+    version='3.0.0',
+    install_requires=[
+        'ioctl-opt ~= 1.2',
+    ],
+    description='A library for the VCSM (VideoCore Shared Memory service) and VCSM-CMA (contiguous memory allocator) kernel drivers',
+    author='Yukimasa Sugizaki',
+    author_email='ysugi@idein.jp',
+    url='https://github.com/Idein/rpi-vcsm',
 )
